@@ -59,7 +59,7 @@ class MessageHandler:
             log.exception("webhook repost failed for message %s", message.id)
             return
 
-        link = _message_link(reposted.guild_id, target.id, reposted.id)
+        link = _message_link(target.guild.id, target.id, reposted.id)
 
         try:
             await message.delete()
@@ -80,5 +80,5 @@ class MessageHandler:
         return channel if isinstance(channel, discord.TextChannel) else None
 
 
-def _message_link(guild_id: int | None, channel_id: int, message_id: int) -> str:
+def _message_link(guild_id: int, channel_id: int, message_id: int) -> str:
     return f"https://discord.com/channels/{guild_id}/{channel_id}/{message_id}"
