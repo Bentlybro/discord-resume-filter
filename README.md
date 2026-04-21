@@ -12,13 +12,37 @@ The two-stage filter means the LLM is only called on messages that already look 
 
 ## Setup
 
-```bash
+### Windows (cmd)
+
+```cmd
 python -m venv .venv
-. .venv/Scripts/activate   # Windows
+.venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env       # then fill in the values
+copy .env.example .env
 python -m bot
 ```
+
+### Windows (PowerShell)
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+python -m bot
+```
+
+### macOS / Linux
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+python -m bot
+```
+
+Fill in the values in `.env` between `copy` and `python -m bot`.
 
 ## Env vars
 
