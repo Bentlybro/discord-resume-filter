@@ -21,5 +21,6 @@ async def repost_as_user(
         username=message.author.display_name,
         avatar_url=message.author.display_avatar.url,
         files=files,
+        suppress_embeds=True,
         wait=True,
     )
