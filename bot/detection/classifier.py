@@ -1,5 +1,8 @@
-from google import genai
-from google.genai import types
+from openai import AsyncOpenAI
+
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+HTTP_REFERER = "https://github.com/Bentlybro/discord-resume-filter"
+APP_TITLE = "discord-resume-filter"
 
 PROMPT = """You are a moderator for a Discord server's general chat. Your job is to detect messages that are self-introductions, resumes, portfolios, or job-seeking pitches — content that belongs in an #introduce-yourself channel instead of general chat.
 
@@ -25,19 +28,24 @@ Message:
 """
 
 
-class GeminiClassifier:
-    def __init__(self, api_key: str, model: str = "gemini-2.0-flash"):
-        self._client = genai.Client(api_key=api_key)
+class OpenRouterClassifier:
+    def __init__(self, api_key: str, model: str):
+        self._client = AsyncOpenAI(
+            api_key=api_key,
+            base_url=OPENROUTER_BASE_URL,
+            default_headers={
+                "HTTP-Referer": HTTP_REFERER,
+                "X-Title": APP_TITLE,
+            },
+        )
         self._model = model
 
     async def is_resume(self, content: str) -> bool:
-        response = await self._client.aio.models.generate_content(
+        response = await self._client.chat.completions.create(
             model=self._model,
-            contents=PROMPT.format(content=content),
-            config=types.GenerateContentConfig(
-                max_output_tokens=5,
-                temperature=0.0,
-            ),
+            messages=[{"role": "user", "content": PROMPT.format(content=content)}],
+            max_tokens=5,
+            temperature=0.0,
         )
-        text = (response.text or "").strip().upper()
+        text = (response.choices[0].message.content or "").strip().upper()
         return text.startswith("YES")

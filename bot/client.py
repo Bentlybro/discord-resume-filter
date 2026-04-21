@@ -3,7 +3,7 @@ import logging
 import discord
 
 from bot.config import Config
-from bot.detection.classifier import GeminiClassifier
+from bot.detection.classifier import OpenRouterClassifier
 from bot.detection.detector import ResumeDetector
 from bot.handler import MessageHandler
 
@@ -17,7 +17,10 @@ class ResumeFilterBot(discord.Client):
         intents.members = True
         super().__init__(intents=intents)
         self._config = config
-        classifier = GeminiClassifier(api_key=config.gemini_api_key, model=config.gemini_model)
+        classifier = OpenRouterClassifier(
+            api_key=config.openrouter_api_key,
+            model=config.openrouter_model,
+        )
         detector = ResumeDetector(classifier)
         self._handler = MessageHandler(self, config, detector)
 

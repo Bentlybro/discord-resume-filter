@@ -9,7 +9,7 @@ description = "Discord bot that redirects resume/job-pitch posts out of general 
 requires-python = ">=3.11"
 dependencies = [
     "discord.py>=2.4.0",
-    "google-genai>=0.3.0",
+    "openai>=1.50.0",
     "python-dotenv>=1.0.0",
 ]
 

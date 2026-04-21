@@ -1,9 +1,9 @@
-from bot.detection.classifier import GeminiClassifier
+from bot.detection.classifier import OpenRouterClassifier
 from bot.detection.prefilter import looks_like_resume
 
 
 class ResumeDetector:
-    def __init__(self, classifier: GeminiClassifier):
+    def __init__(self, classifier: OpenRouterClassifier):
         self._classifier = classifier
 
     async def is_resume(self, content: str) -> bool:
