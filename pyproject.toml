@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "discord-resume-filter"
+version = "0.1.0"
+description = "Discord bot that redirects resume/job-pitch posts out of general chat"
+requires-python = ">=3.11"
+dependencies = [
+    "discord.py>=2.4.0",
+    "google-genai>=0.3.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.6.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["bot*"]
+exclude = ["tests*"]
+
+[tool.pyright]
+include = ["bot", "tests"]
+venvPath = "."
+venv = ".venv"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
