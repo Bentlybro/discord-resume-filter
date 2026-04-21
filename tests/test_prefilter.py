@@ -70,6 +70,21 @@ def test_full_stack_engineer_pitch_detected():
     assert looks_like_resume(msg)
 
 
+def test_writer_pitch_detected():
+    msg = (
+        "Hi everyone! I thought to put this up here that I'm a writer and "
+        "I am currently open to writing opportunities and positions. I've "
+        "been writing for a couple of years, and you can check out my "
+        "latest pieces on my new blog:\n\n"
+        "Blog - https://example.com/\n"
+        "Resume - https://example.com/resume\n\n"
+        "I'm also a very IT-inclined person owing to years of using the "
+        "computer, so I can fit in well in any position that needs good "
+        "writing skills with a background in IT."
+    )
+    assert looks_like_resume(msg)
+
+
 def test_short_looking_for_dev_rejected():
     assert not looks_like_resume("is there anyone looking for a dev?")
 
