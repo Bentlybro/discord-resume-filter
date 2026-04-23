@@ -41,6 +41,8 @@ class MessageHandler:
             return False
         if message.webhook_id is not None:
             return False
+        if message.channel.id == self._config.intro_channel_id:
+            return False
         if message.channel.id not in self._config.watched_channel_ids:
             return False
         return bool(message.content)
