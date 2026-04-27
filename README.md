@@ -55,7 +55,13 @@ Fill in the values in `.env` between `copy` and `python -m bot`.
 | `WATCHED_CHANNEL_IDS` | yes | Comma-separated channel IDs to monitor |
 | `LOG_CHANNEL_ID` | no | Channel to log moderation actions to |
 | `SYNC_GUILD_ID` | no | Guild ID for instant slash-command sync. Leave empty for global sync. |
+| `MAX_MOVES_PER_WINDOW` | no | Default `1`. Per-user auto-move quota. |
+| `MOVE_WINDOW_SECONDS` | no | Default `300`. Rolling window the quota applies over. |
 | `DRY_RUN` | no | `true` to detect but not act |
+
+## Spam protection
+
+If a single user gets a flagged message moved, any further flagged messages from them within `MOVE_WINDOW_SECONDS` are **deleted only** — no repost, no DM. Stops a spambot pasting the same pitch across N watched channels from creating N copies in the intro channel. Manual `/move` and the context menu always bypass the rate limit.
 
 ## Manual moderation commands
 

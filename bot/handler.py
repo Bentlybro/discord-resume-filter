@@ -5,6 +5,7 @@ import discord
 from bot.actions.move import MoveService
 from bot.config import Config
 from bot.detection.detector import ResumeDetector
+from bot.move_tracker import MoveTracker
 
 log = logging.getLogger(__name__)
 
@@ -14,6 +15,10 @@ class MessageHandler:
         self._config = config
         self._detector = detector
         self._mover = mover
+        self._tracker = MoveTracker(
+            max_moves=config.max_moves_per_window,
+            window_seconds=config.move_window_seconds,
+        )
 
     async def handle(self, message: discord.Message) -> None:
         if not self._should_process(message):
@@ -32,7 +37,25 @@ class MessageHandler:
             log.info("DRY_RUN: would move message %s by %s", message.id, message.author)
             return
 
-        await self._mover.move(message)
+        if not self._tracker.can_move(message.author.id):
+            await self._delete_only(message)
+            return
+
+        link = await self._mover.move(message)
+        if link is not None:
+            self._tracker.record(message.author.id)
+
+    async def _delete_only(self, message: discord.Message) -> None:
+        try:
+            await message.delete()
+            log.info(
+                "rate-limited: deleted message %s by %s (%s already moved within window)",
+                message.id,
+                message.author,
+                message.author.id,
+            )
+        except discord.HTTPException:
+            log.exception("failed to delete rate-limited message %s", message.id)
 
     def _should_process(self, message: discord.Message) -> bool:
         if message.author.bot:

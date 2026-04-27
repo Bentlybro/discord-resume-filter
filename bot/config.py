@@ -15,6 +15,8 @@ class Config:
     watched_channel_ids: frozenset[int]
     log_channel_id: int | None
     sync_guild_id: int | None
+    max_moves_per_window: int
+    move_window_seconds: int
     dry_run: bool
 
     @classmethod
@@ -27,6 +29,8 @@ class Config:
             watched_channel_ids=frozenset(_parse_ids(_required("WATCHED_CHANNEL_IDS"))),
             log_channel_id=_optional_int("LOG_CHANNEL_ID"),
             sync_guild_id=_optional_int("SYNC_GUILD_ID"),
+            max_moves_per_window=int(os.getenv("MAX_MOVES_PER_WINDOW", "1")),
+            move_window_seconds=int(os.getenv("MOVE_WINDOW_SECONDS", "300")),
             dry_run=_parse_bool(os.getenv("DRY_RUN", "false")),
         )
 
