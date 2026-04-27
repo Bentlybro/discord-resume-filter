@@ -85,8 +85,47 @@ def test_writer_pitch_detected():
     assert looks_like_resume(msg)
 
 
+def test_senior_decade_pitch_detected():
+    msg = (
+        "Hi All\n"
+        "Over the past decade, I've led the design and deployment of "
+        "enterprise AI systems, including fine-tuned GPT and LLaMA models "
+        "for internal knowledge platforms and automation workflows. I built "
+        "an MLOps framework that reduced model deployment cycles from two "
+        "weeks to three days, improving release velocity and operational "
+        "reliability. My experience includes large-scale data pipelines "
+        "(terabyte-scale ETL), production RAG systems, and scalable "
+        "inference infrastructure. I focus on building AI products that "
+        "are stable, cost-efficient, and ready for real users. If you need "
+        "senior-level execution to move from concept to launch, message "
+        "me with your project scope."
+    )
+    assert looks_like_resume(msg)
+
+
+def test_short_looking_for_job_detected():
+    assert looks_like_resume(
+        "Hello. I am currently looking for a job. Is anyone here with "
+        "a current project or a new idea?"
+    )
+
+
+def test_short_unpaid_dm_detected():
+    assert looks_like_resume("dm if you looking for unpaid experience")
+
+
+def test_short_hire_me_detected():
+    assert looks_like_resume("Hire me — quick MVPs, fair price")
+
+
 def test_short_looking_for_dev_rejected():
     assert not looks_like_resume("is there anyone looking for a dev?")
+
+
+def test_hackathon_team_finding_rejected():
+    assert not looks_like_resume(
+        "Anyone looking for a team to nvidia's computer use hackathon https://luma.com/cua ?"
+    )
 
 
 def test_general_discussion_rejected():
