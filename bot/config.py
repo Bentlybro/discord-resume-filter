@@ -14,6 +14,7 @@ class Config:
     intro_channel_id: int
     watched_channel_ids: frozenset[int]
     log_channel_id: int | None
+    sync_guild_id: int | None
     dry_run: bool
 
     @classmethod
@@ -25,6 +26,7 @@ class Config:
             intro_channel_id=int(_required("INTRO_CHANNEL_ID")),
             watched_channel_ids=frozenset(_parse_ids(_required("WATCHED_CHANNEL_IDS"))),
             log_channel_id=_optional_int("LOG_CHANNEL_ID"),
+            sync_guild_id=_optional_int("SYNC_GUILD_ID"),
             dry_run=_parse_bool(os.getenv("DRY_RUN", "false")),
         )
 

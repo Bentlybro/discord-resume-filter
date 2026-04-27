@@ -54,11 +54,21 @@ Fill in the values in `.env` between `copy` and `python -m bot`.
 | `INTRO_CHANNEL_ID` | yes | Channel to repost into |
 | `WATCHED_CHANNEL_IDS` | yes | Comma-separated channel IDs to monitor |
 | `LOG_CHANNEL_ID` | no | Channel to log moderation actions to |
+| `SYNC_GUILD_ID` | no | Guild ID for instant slash-command sync. Leave empty for global sync. |
 | `DRY_RUN` | no | `true` to detect but not act |
+
+## Manual moderation commands
+
+Mods (`Manage Messages` permission) get two ways to manually move a post:
+
+1. **Right-click the message → Apps → "Move to intro"** — fastest, works on any message
+2. **`/move <url-or-id>`** — pass a Discord message URL, or a message ID from the current channel
+
+Both run the same flow as automatic detection: webhook repost (with the user's name + avatar) into the intro channel, original deleted, DM sent.
 
 ## Bot permissions
 
-The bot needs: `Read Messages`, `Send Messages`, `Manage Messages` (to delete), `Manage Webhooks`. Message Content Intent must be enabled in the developer portal.
+The bot needs: `Read Messages`, `Send Messages`, `Manage Messages`, `Manage Webhooks`, and the `applications.commands` OAuth scope (so slash/context-menu commands appear). Message Content Intent + Server Members Intent must be enabled in the developer portal.
 
 ## Tests
 
